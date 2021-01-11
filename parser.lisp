@@ -8,7 +8,8 @@
 (in-package #:pem/parser)
 
 (defun parse (pem)
-  (assert (eq (stream-element-type pem) 'character))
+  (assert (eq (stream-element-type pem) #+lispworks 'base-char
+                                        #-lispworks 'character))
   (loop for line = (read-line pem nil nil)
         while line
         collect (ppcre:register-groups-bind (label)
